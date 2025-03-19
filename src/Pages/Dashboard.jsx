@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import bg from '../assets/images/bg.jpg'
 
 function Dashboard() {
@@ -37,6 +37,9 @@ function Dashboard() {
               placeholder="Location"
             />
           </div>
+
+   
+
 
           <div className="button-area w-full flex justify-center items-center">
             <button className="bg-[#A1E3F9] text-black font-bold  hover:bg-white md:rounded-[8px] outline-2 outline-gray-600 p-2 rounded-sm w-32 active:scale-[.96] duration-200 ease-in-out font-Kanit">

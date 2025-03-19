@@ -1,7 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Teacherbg from '../assets/images/tree.jpeg'
+import BasicAlerts from '../Components/BasicAlerts'
+import axiosInstance from '../Instances/AxiosInstance'
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function Login() {
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm(); // using useForm hook for validation
+
+
+  const [alert, setalert] = useState({ visible: false, type: '', msg: '' })
+  const Navigate = useNavigate()
+
+
+
+  async function onsubmit(data) {
+    
+    try {
+
+      const response = await axiosInstance.post('/login', data)
+
+      const result = response.data
+      setalert({ visible: true, type: 'success', msg: result.message})
+      setTimeout(() => Navigate(`/dashboard`), 1000);
+
+    } catch (err) {
+
+       setalert({ visible: true, type: 'error', msg: err.response.data.message})
+
+
+    }
+
+  }
+
+  if (alert) setTimeout(() => {
+    setalert('')
+  }, 1000);
 
   return (
     <div className="container w-screen h-screen flex justify-center items-center bg-white">
@@ -16,41 +52,46 @@ function Login() {
           className="form-area flex flex-col md:w-[50%] justify-center pl-8 py-3 gap-6 md:gap-[32px]"
           style={{
             backgroundImage: 'linear-gradient(to right, #211C84, #6A5ACD)',
-          }}
-          
-        >
-          <div className="heading-area flex justify-center px-3
-          ">
+          }}>
+
+          <div className="heading-area flex justify-center px-3"> 
+
             <h2 className="text-[white]  shadow-sm font-kanitFont text-[1.4rem] text-center ">Find your choice of course and college with us</h2>
           </div>
           <div className="signupform-area w-full justify-center">
-            <form className="flex pl-10 flex-col gap-2.5 w-full">
+            <form className="flex pl-10 flex-col gap-2.5 w-full" onSubmit={handleSubmit(onsubmit)}>
               <div className="form-outline flex flex-col gap-1">
                 <label htmlFor="email" className="text-[#ffffffe9]  text-[16px] font-kanitFont">E mail</label>
                 <input
-  type="email"
-  name="email"
-  className="border-gray-400 w-[80%] focus:border-b-[#4e87c5] focus:outline-none rounded-[6px] h-[36px] pl-3 sm:text-[1px] md:text-lg placeholder:text-gray-600 placeholder:font-semibold flex items-center md:placeholder:text-sm placeholder:hidden lg:placeholder:block"
-  placeholder="Enter your email address"
-  aria-label="Email"
-  style={{
-    lineHeight: '36px', // Ensures the placeholder is vertically centered
-  }}
-/>
+                  type="email"
+                  name="email"
+                  className="border-gray-400 w-[80%] focus:border-b-[#4e87c5] focus:outline-none rounded-[6px] h-[36px] pl-3 sm:text-[1px] md:text-lg placeholder:text-gray-600 md:placeholder:font-semibold flex items-center placeholder:hidden sm:placeholder:hidden lg:placeholder:block"
+                  placeholder="Enter your email address"
+                  aria-label="Email"
+                  {...register("email",{
+                    required: 'Email is required',
+                    pattern: {
+                      value : /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                      message: 'Invalid email address'
 
+                    }
+                  })}
+                />
+                  {errors.email && <span className="text-white">{errors.email.message}</span>}
 
               </div>
 
-
               {alert.visible && (
-                <span className='mr-[80px] border-4 border-red-800'>
-                  <BasicAlerts type={alert.type} msg={alert.msg} />
+                <span className=" w-[80%] mt-4">
+                  <BasicAlerts type={alert.type} msg={alert.msg}/>
                 </span>
               )}
 
+
               <div className="button-area w-full flex justify-center md:mt-4 md:pr-8">
                 <button
-                  className="bg-[#A1E3F9] text-black  font-bold mb-5 hover:bg-white  md:rounded-[8px] outline-2 outline-gray-600 p-2 rounded-sm w-32 mr-10 mt-2 active:scale-[.96] duration-200 ease-in-out shadow-customShadow font-Kanit">
+                clicked={handleSubmit(onsubmit)}
+                  className="bg-[#A1E3F9] text-black  font-bold mb-5 hover:bg-white  md:rounded-[8px] outline-2 outline-gray-600 p-2 rounded-sm w-32 mr-10 mt-2 active:scale-[.96] duration-200 ease-in-out font-Kanit">
                   Submit
                 </button>
               </div>
