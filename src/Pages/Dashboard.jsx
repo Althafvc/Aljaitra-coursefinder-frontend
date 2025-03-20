@@ -5,23 +5,35 @@ import axiosInstance from '../Instances/AxiosInstance';
 
 function Dashboard() {
   const [searchData, setSearchData] = useState({ COURSENAME: '', COLLEGE: '' });
-  const [coursedata, setCoursedata] = useState([])
+  const [courseNames, setCourseNames] = useState([])
   const [collegedata, setCollegeData] = useState([])
+  const [selectedCourse, setSelectedCourse] = useState('')
+  const [courseToCollegeMap, setCourseToCollegeMap] = useState({});
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDataAsync = async () => {
       try {
         const response = await axiosInstance.get('/fetchdata');
-        if (response.data && response.data.coursenames) {
-          setCoursedata(response.data.coursenames);
+        if (response.data && response.data.allData) {
+          setCourseNames(response.data.allData.map(course => course.COURSENAME)) 
 
-          if (response.data && response.data.allColleges) {
-
-            setCollegeData(response.data.allColleges)
+          
 
 
+          if (response.data && response.data.allData) {
+            setCourseNames(response.data.allData.map(course => course.COURSENAME));
+          
+            // Create a mapping of course names to their corresponding colleges
+            const mapping = {};
+            response.data.allData.forEach(course => {
+              mapping[course.COURSENAME] = course.COLLEGES || []; // Assuming 'COLLEGES' is an array in response
+            });
+          
+            setCourseToCollegeMap(mapping);
           }
+          
 
         }
         else {
@@ -35,15 +47,38 @@ function Dashboard() {
     fetchDataAsync();
   }, []); // Empty dependency array means this effect runs once when the component mounts
 
+  useEffect(() => {
+    if (selectedCourse && courseToCollegeMap[selectedCourse]) {
+      setCollegeData(courseToCollegeMap[selectedCourse]); // Set colleges based on selected course
+    } else {
+      setCollegeData([]); // Reset if no course is selected
+    }
+  }, [selectedCourse]); // Run when selectedCourse changes
+  
 
-  // Update searchData state in a reliable way
+
   function handleChange(e) {
-    const { name, value } = e.target;
-    setSearchData((prevState) => ({
+    const { name, value } = e.target; // Get the name and value from the event
+    const upperValue = value.toUpperCase();
+  
+    // Update state based on the selected field
+    setSearchData(prevState => ({
       ...prevState,
-      [name]: value.toUpperCase(), // Update the value with uppercase
+      [name]: upperValue,
     }));
+  
+    // If the course dropdown is changed
+    if (name === "COURSENAME") {
+      setSelectedCourse(upperValue); // Update selected course
+      setSearchData(prevState => ({ ...prevState, COLLEGE: "" })); // Reset college selection
+    }
+  
+    // Log selected values immediately (not relying on state update)
+    console.log("Selected Course:", name === "COURSENAME" ? upperValue : searchData.COURSENAME);
+    console.log("Selected College:", name === "COLLEGE" ? upperValue : searchData.COLLEGE);
   }
+  
+  
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -95,9 +130,10 @@ function Dashboard() {
               onChange={handleChange}
             >
               <option value="">Select a Course</option>
-              {coursedata.length > 0 ? (
-                coursedata.map((course, index) => (
+              {courseNames.length > 0 ? (
+                courseNames.map((course, index) => (
                   <option key={index} value={course}>{course}</option>
+                
                 ))
               ) : (
                 <option value="">No Courses Available</option>
