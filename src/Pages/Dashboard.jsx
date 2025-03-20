@@ -17,35 +17,28 @@ function Dashboard() {
       try {
         const response = await axiosInstance.get('/fetchdata');
         if (response.data && response.data.allData) {
-          setCourseNames(response.data.allData.map(course => course.COURSENAME)) 
-
-          
-
-
-          if (response.data && response.data.allData) {
-            setCourseNames(response.data.allData.map(course => course.COURSENAME));
-          
-            // Create a mapping of course names to their corresponding colleges
-            const mapping = {};
-            response.data.allData.forEach(course => {
-              mapping[course.COURSENAME] = course.COLLEGES || []; // Assuming 'COLLEGES' is an array in response
-            });
-          
-            setCourseToCollegeMap(mapping);
-          }
-          
-
-        }
-        else {
-          console.error('Data structure unexpected', response.data);
+          const uniqueCourses = [...new Set(response.data.allData.map(course => course.COURSENAME))];
+          setCourseNames(uniqueCourses);
+  
+          // Create a mapping of course names to their corresponding colleges
+          const mapping = {};
+          response.data.allData.forEach(course => {
+            const courseKey = course.COURSENAME.toUpperCase(); // Normalize key
+            mapping[courseKey] = course.COLLEGES || [];
+          });
+  
+          setCourseToCollegeMap(mapping);
+        } else {
+          console.error('Unexpected data structure', response.data);
         }
       } catch (err) {
         console.log('Data fetching failed', err);
       }
     };
-
+  
     fetchDataAsync();
-  }, []); // Empty dependency array means this effect runs once when the component mounts
+  }, []);
+  
 
   useEffect(() => {
     if (selectedCourse && courseToCollegeMap[selectedCourse]) {
@@ -58,41 +51,44 @@ function Dashboard() {
 
 
   function handleChange(e) {
-    const { name, value } = e.target; // Get the name and value from the event
+    const { name, value } = e.target;
     const upperValue = value.toUpperCase();
   
-    // Update state based on the selected field
     setSearchData(prevState => ({
       ...prevState,
       [name]: upperValue,
     }));
   
-    // If the course dropdown is changed
     if (name === "COURSENAME") {
-      setSelectedCourse(upperValue); // Update selected course
-      setSearchData(prevState => ({ ...prevState, COLLEGE: "" })); // Reset college selection
+      setSelectedCourse(upperValue);
+      setSearchData(prevState => ({ ...prevState, COLLEGE: "" }));
     }
   
-    // Log selected values immediately (not relying on state update)
     console.log("Selected Course:", name === "COURSENAME" ? upperValue : searchData.COURSENAME);
     console.log("Selected College:", name === "COLLEGE" ? upperValue : searchData.COLLEGE);
   }
   
   
+  
 
-  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-
+    e.preventDefault(); // Prevent default form submission
+  
     try {
       const response = await axiosInstance.post('/search', searchData);
-      console.log('Search submitted', response);
+      const result = response.data.responseData
+
+          navigate('/output', { state: result });
+
+
+
+      
     } catch (err) {
       console.log('Searching error', err);
     }
-
-    // navigate('/output', { state: searchData }); // Uncomment to pass searchData to next page
+  
   };
+  
 
 
   return (
@@ -184,5 +180,7 @@ function Dashboard() {
     </div>
   );
 }
+
+
 
 export default Dashboard;
