@@ -91,7 +91,7 @@ function Login() {
               <div className="button-area w-full flex justify-center md:mt-4 md:pr-8">
                 <button
                 clicked={handleSubmit(onsubmit)}
-                  className="bg-[#A1E3F9] text-black  font-bold mb-5 hover:bg-white  md:rounded-[8px] outline-2 outline-gray-600 p-2 rounded-sm w-32 mr-10 mt-2 active:scale-[.96] duration-200 ease-in-out font-Kanit">
+                  className="bg-[#A1E3F9] text-black  font-bold mb-5 hover:bg-white hover  md:rounded-[8px] outline-2 outline-gray-600 p-2 rounded-sm w-32 mr-10 mt-2 active:scale-[.96] duration-200 ease-in-out font-Kanit">
                   Submit
                 </button>
               </div>
