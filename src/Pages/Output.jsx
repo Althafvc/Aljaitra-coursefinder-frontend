@@ -5,7 +5,6 @@ import SearchIcon from "@mui/icons-material/SearchOutlined";
 function Output() {
   const location = useLocation()
   const searchData = location.state || {}; // Default to empty object if no state is passed
-  console.log(searchData);  
   
   
   

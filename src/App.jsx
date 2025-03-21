@@ -1,18 +1,23 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './Pages/Login' // Ensure the Login component is correctly imported
+import { Provider } from "react-redux";
+import store from "./redux/store"; // Import Redux store
+import Login from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
-import Output from './Pages/Output'
+import Output from './Pages/Output';
+import ProtectedRoute from './protectedRoute'; // Import ProtectedRoute
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />  
-        <Route path='/dashboard' element={<Dashboard/>}/>
-        <Route path='/output' element={<Output/>}/>
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/output" element={<ProtectedRoute><Output /></ProtectedRoute>} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

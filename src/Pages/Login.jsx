@@ -1,43 +1,46 @@
-import React, { useState } from 'react'
-import Teacherbg from '../assets/images/tree.jpeg'
-import BasicAlerts from '../Components/BasicAlerts'
-import axiosInstance from '../Instances/AxiosInstance'
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/authSlice";
+import { useNavigate } from "react-router-dom";
+import Teacherbg from '../assets/images/loginbg.jpeg'
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-
-
+import axiosInstance from '../Instances/AxiosInstance'
+import BasicAlerts from '../Components/BasicAlerts'
 
 function Login() {
-    const { register, handleSubmit, getValues, formState: { errors } } = useForm(); // using useForm hook for validation
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const handleLogin = () => {
+    dispatch(login()); // Update Redux state
+    navigate("/dashboard"); // Redirect to Dashboard
+  };
 
+  const { register, handleSubmit, getValues, formState: { errors } } = useForm(); // using useForm hook for validation
   const [alert, setalert] = useState({ visible: false, type: '', msg: '' })
-  const Navigate = useNavigate()
 
 
 
   async function onsubmit(data) {
-    
     try {
-
-      const response = await axiosInstance.post('/login', data)
-
-      const result = response.data
-      setalert({ visible: true, type: 'success', msg: result.message})
-      setTimeout(() => Navigate(`/dashboard`), 1000);
-
+      const response = await axiosInstance.post('/login', data);
+      console.log("Login successful:", response.data); // Debugging
+  
+      dispatch(login(response.data.user)); // ✅ Update Redux auth state
+  
+      setTimeout(() => {
+        console.log("Redirecting to /dashboard...");
+        navigate("/dashboard");
+      }, 1000);
     } catch (err) {
-
-       setalert({ visible: true, type: 'error', msg: err.response.data.message})
-
-
+      console.error("Login failed:", err);
     }
-
   }
 
   if (alert) setTimeout(() => {
     setalert('')
   }, 1000);
+
 
   return (
     <div className="container w-screen h-screen flex justify-center items-center bg-white">
@@ -90,7 +93,6 @@ function Login() {
 
               <div className="button-area w-full flex justify-center md:mt-4 md:pr-8">
                 <button
-                clicked={handleSubmit(onsubmit)}
                   className="bg-[#A1E3F9] text-black  font-bold mb-5 hover:bg-white hover  md:rounded-[8px] outline-2 outline-gray-600 p-2 rounded-sm w-32 mr-10 mt-2 active:scale-[.96] duration-200 ease-in-out font-Kanit">
                   Submit
                 </button>
@@ -103,4 +105,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Login;
