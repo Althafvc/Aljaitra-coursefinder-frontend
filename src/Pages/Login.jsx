@@ -25,15 +25,20 @@ function Login() {
     try {
       const response = await axiosInstance.post('/login', data);
       console.log("Login successful:", response.data); // Debugging
-  
+      setalert({ visible: true, type: 'success', msg: response.data.message })
+
       dispatch(login(response.data.user)); // ✅ Update Redux auth state
-  
+
       setTimeout(() => {
-        console.log("Redirecting to /dashboard...");
+
         navigate("/dashboard");
       }, 1000);
     } catch (err) {
-      console.error("Login failed:", err);
+
+      setalert({ visible: true, type: 'error', msg: err.response.data.message })
+
+
+      console.error(err.response.data.message);
     }
   }
 
@@ -57,7 +62,7 @@ function Login() {
             backgroundImage: 'linear-gradient(to right, #211C84, #6A5ACD)',
           }}>
 
-          <div className="heading-area flex justify-center px-3"> 
+          <div className="heading-area flex justify-center px-3">
 
             <h2 className="text-[white]  shadow-sm font-kanitFont text-[1.4rem] text-center ">Find your choice of course and college with us</h2>
           </div>
@@ -71,22 +76,22 @@ function Login() {
                   className="border-gray-400 w-[80%] focus:border-b-[#4e87c5] focus:outline-none rounded-[6px] h-[36px] pl-3 sm:text-[1px] md:text-lg placeholder:text-gray-600 md:placeholder:font-semibold flex items-center placeholder:hidden sm:placeholder:hidden lg:placeholder:block"
                   placeholder="Enter your email address"
                   aria-label="Email"
-                  {...register("email",{
+                  {...register("email", {
                     required: 'Email is required',
                     pattern: {
-                      value : /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                       message: 'Invalid email address'
 
                     }
                   })}
                 />
-                  {errors.email && <span className="text-white">{errors.email.message}</span>}
+                {errors.email && <span className="text-white">{errors.email.message}</span>}
 
               </div>
 
               {alert.visible && (
                 <span className=" w-[80%] mt-4">
-                  <BasicAlerts type={alert.type} msg={alert.msg}/>
+                  <BasicAlerts type={alert.type} msg={alert.msg} />
                 </span>
               )}
 
