@@ -1,13 +1,14 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import SearchIcon from "@mui/icons-material/SearchOutlined";
+import bg from '../assets/images/backgrounds/seven.jpg'
 
 function Output() {
   const location = useLocation()
   const searchData = location.state || {}; // Default to empty object if no state is passed
-  
-  
-  
+
+
+
   return (
 
     <div className="wrapper h-screen w-screen">
@@ -18,30 +19,39 @@ function Output() {
 
 
 
+      <div className="content-wrapper w-screen h-screen flex justify-center items-center"
+        style={{
+          backgroundImage: `url(${bg})`,
+          backgroundSize: '',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}>
 
-      <div className="content-wrapper w-full  border-2 border-red-700 flex justify-center">
-       <div className="tablecontainer w-auto h-auto md:w-[80%] bg-slate-400 mt-8 px-10 rounded-xl flex flex-col gap-2 py-4 ">
-       <div className="collegename w-full border-2 border-green-700 flex justify-center items-center font-bold font-kanitFont py-2 ">{searchData.COLLEGE ? searchData.COLLEGE : '' }</div>
+
+        <div className="tablecontainer pb-4 w-[85%] h-auto md:w-[80%]   rounded-xl flex flex-col gap-4  bg-[#382388] px-2 lg:max-w-[50%]">
+          <div className="collegename w-full flex justify-center items-center font-bold font-kanitFont py-2 text-white text-[22px] lg:text-[22px] underline">
+            {searchData.COLLEGE ? `${searchData.COLLEGE} COLLEGE` : ''}
+          </div>
 
 
-        <div className="coursename border-2 border-red-500 flex justify-around"> <p className='font-semibold font-kanitFont'>Course Name :</p> <p className='font-semibold font-kanitFont text-red-600'>{searchData.COURSENAME}</p> </div>
-        <div className="specialisations border-2 border-red-500 flex py-4 md:justify-around">
-  <p className='font-semibold font-kanitFont mb-2'>Specialisations :</p>
+          <div className="coursename bg-[#008FE8] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Course Name </p> <p className='font-semibold font-kanitFont text-[15px]   text-white md:text-[22px]'>{searchData.COURSENAME}</p> </div>
 
-  <div className="flex flex-col gap-1 pl-4">
-    {searchData.SPECIALISATION && searchData.SPECIALISATION.map((specialisation, index) => (
-      <p key={index} className='font-semibold font-kanitFont text-red-600'>{specialisation}</p>
-    ))}
-  </div>
-</div>
 
-<div className="feesamount border-2 border-red-500 flex justify-around"> <p className='font-semibold font-kanitFont'>Fees Amount :</p> <p className='font-semibold font-kanitFont text-red-600'>{searchData.FEESAMOUNT}</p> </div>
-<div className="location border-2 border-red-500 flex justify-around"> <p className='font-semibold font-kanitFont'>Location :</p> <p className='font-semibold font-kanitFont text-red-600'>{searchData.LOCATION}</p> </div>
 
-       </div>
+          <div className="specialisations flex py-2 justify-center items-center flex-col bg-[#3B4AAF] rounded-[6px]">
+            <p className='font-semibold  font-kanitFont text-[18px] md:text-[22px] text-white underline'>SPECIALISATIONS</p>
+            <div className="flex flex-col justify-center items-center gap-1 pl-4 ">
+              <ul className=" flex flex-col items-center gap-3">
+                {searchData.SPECIALISATION && searchData.SPECIALISATION.map((specialisation, index) => (
+                  <li key={index} className=" font-kanitFont text-white lg:text-[20px]">{specialisation}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="coursename bg-[#008FE8] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Fees Amount </p>   <p className='font-semibold font-kanitFont text-[15px] md:text-[22px] text-white'>{searchData.FEESAMOUNT}</p> </div>
+          <div className="coursename bg-[#3B4AAF] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Location </p>   <p className='font-semibold font-kanitFont text-[15px] text-white md:text-[22px]'>{searchData.LOCATION}</p> </div>
+        </div>
       </div>
-
-    
     </div>
   )
 }
