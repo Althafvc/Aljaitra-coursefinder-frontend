@@ -29,7 +29,7 @@ function Output() {
 
 
         <div className="tablecontainer pb-4 w-[85%] h-auto md:w-[80%]   rounded-xl flex flex-col gap-4  bg-[#382388] px-2 lg:max-w-[50%]">
-          <div className="collegename w-full flex justify-center items-center font-bold font-kanitFont py-2 text-white text-[22px] lg:text-[22px] underline">
+          <div className="collegename w-full flex justify-center items-center font-bold font-kanitFont py-2 text-white text-[22px] lg:text-[22px] underline decoration-2 underline-offset-8">
             {searchData.COLLEGE ? `${searchData.COLLEGE} COLLEGE` : ''}
           </div>
 
@@ -39,7 +39,7 @@ function Output() {
 
 
           <div className="specialisations flex py-2 justify-center items-center flex-col bg-[#3B4AAF] rounded-[6px]">
-            <p className='font-semibold  font-kanitFont text-[18px] md:text-[22px] text-white underline'>SPECIALISATIONS</p>
+            <p className='font-semibold  font-kanitFont text-[18px] md:text-[22px] text-white underline decoration-2 underline-offset-4'>SPECIALISATIONS</p>
             <div className="flex flex-col justify-center items-center gap-1 pl-4 ">
               <ul className=" flex flex-col items-center gap-3">
                 {searchData.SPECIALISATION && searchData.SPECIALISATION.map((specialisation, index) => (
