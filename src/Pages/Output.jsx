@@ -12,10 +12,11 @@ function Output() {
   return (
 
     <div className="wrapper h-screen w-screen">
-      {/* <div className ="navbar w-full h-[80px] bg-slate-500 flex justify-center items-center gap-8">
+      <div className ="navbar w-full h-[80px] bg-slate-500 flex justify-center items-center gap-4  px-4">
       <SearchIcon style={{ color: "red", fontSize: "40px" }} />
       <input type="text" name="" id="" className='w-[60%] h-[40%] rounded-sm outline-none pl-4 pr-3 font-kanitFont'/>
-      </div> */}
+      <button type='submit' className='py-2 px-4 bg-[blue] rounded-md text-white font-semibold'>Search</button>
+      </div>
 
 
 
@@ -40,7 +41,7 @@ function Output() {
 
           <div className="specialisations flex py-2 justify-center items-center flex-col bg-[#3B4AAF] rounded-[6px]">
             <p className='font-semibold  font-kanitFont text-[18px] md:text-[22px] text-white underline decoration-2 underline-offset-4'>SPECIALISATIONS</p>
-            <div className="flex flex-col justify-center items-center gap-1 pl-4 ">
+            <div className="flex flex-col justify-center items-center gap-1 pl-4 py-2 ">
               <ul className=" flex flex-col items-center gap-3">
                 {searchData.SPECIALISATION && searchData.SPECIALISATION.map((specialisation, index) => (
                   <li key={index} className=" font-kanitFont text-white lg:text-[20px]">{specialisation}</li>
