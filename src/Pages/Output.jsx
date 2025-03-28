@@ -37,20 +37,45 @@ function Output() {
 
           <div className="coursename bg-[#008FE8] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Course Name </p> <p className='font-semibold font-kanitFont text-[15px]   text-white md:text-[22px]'>{searchData.COURSENAME}</p> </div>
 
-
-
           <div className="specialisations flex py-2 justify-center items-center flex-col bg-[#3B4AAF] rounded-[6px]">
             <p className='font-semibold  font-kanitFont text-[18px] md:text-[22px] text-white underline decoration-2 underline-offset-4'>SPECIALISATIONS</p>
-            <div className="flex flex-col justify-center items-center gap-1 pl-4 py-2 ">
+            {/* <div className="flex flex-col justify-between items-center gap-1 pl-4 py-2 border-2 border-green-800 ">
               <ul className=" flex flex-col items-center gap-3">
-                {searchData.SPECIALISATION && searchData.SPECIALISATION.map((specialisation, index) => (
+                {searchData.SPECIALISATIONS && searchData.SPECIALISATIONS.map((specialisation, index) => (
                   <li key={index} className=" font-kanitFont text-white lg:text-[20px]">{specialisation}</li>
                 ))}
               </ul>
+            </div> */}
+
+            <div className="spwrapper flex w-full justify-between px-4 md:px-6 py-2">
+
+            <ul className=" flex flex-col items-center gap-3">
+                {searchData.SPECIALISATIONS && searchData.SPECIALISATIONS.map((specialisation, index) => (
+                  <li key={index} className=" font-kanitFont text-white lg:text-[20px]">{specialisation}</li>
+                ))}
+              </ul>
+
+
+            <ul className=" flex flex-col items-center gap-3">
+                {searchData.FEESAMOUNT && searchData.FEESAMOUNT.map((fees, index) => (
+                  <li key={index} className=" font-kanitFont text-white lg:text-[20px]">{fees}</li>
+                ))}
+              </ul>
+
             </div>
           </div>
-          <div className="coursename bg-[#008FE8] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Fees Amount </p>   <p className='font-semibold font-kanitFont text-[15px] md:text-[22px] text-white'>{searchData.FEESAMOUNT}</p> </div>
-          <div className="coursename bg-[#3B4AAF] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Location </p>   <p className='font-semibold font-kanitFont text-[15px] text-white md:text-[22px]'>{searchData.LOCATION}</p> </div>
+
+          <div className="coursename bg-[#008FE8] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Location </p>   <p className='font-semibold font-kanitFont text-[15px] text-white md:text-[22px]'>{searchData.LOCATION}</p> </div>
+
+
+          
+          {/* <div className="coursename bg-[#3B4AAF] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Fees Amount </p>   <p className='font-semibold font-kanitFont text-[15px] md:text-[22px] text-white'>{searchData.FEESAMOUNT}</p> </div> */}
+
+          
+
+
+
+         
         </div>
       </div>
     </div>
