@@ -9,6 +9,7 @@ function Output() {
 
 
 
+
   return (
 
     <div className="wrapper h-screen w-screen">
@@ -29,7 +30,7 @@ function Output() {
         }}>
 
 
-        <div className="tablecontainer pb-4 w-[85%] h-auto md:w-[80%]   rounded-xl flex flex-col gap-4  bg-[#382388] px-2 lg:max-w-[60%]">
+        <div className="tablecontainer pb-4 w-[85%] h-auto md:w-[80%]   rounded-xl flex flex-col gap-4  bg-[#382388] px-2 lg:max-w-[80%]">
           <div className="collegename w-full flex justify-center items-center font-bold font-kanitFont py-2 text-white text-[22px] lg:text-[22px] underline decoration-2 underline-offset-8">
             {searchData.COLLEGE ? `${searchData.COLLEGE} COLLEGE` : ''}
           </div>
@@ -37,20 +38,44 @@ function Output() {
 
           <div className="coursename bg-[#008FE8] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Course Name </p> <p className='font-semibold font-kanitFont text-[15px]   text-white md:text-[22px]'>{searchData.COURSENAME}</p> </div>
 
-          <div className="specialisations flex py-2 justify-center items-center flex-col bg-[#3B4AAF] rounded-[6px]">
-            <p className='font-semibold  font-kanitFont text-[18px] md:text-[22px] text-white underline decoration-2 underline-offset-4'>SPECIALISATIONS</p>
+          <div className="specialisations flex py-4 justify-center items-center flex-col bg-[#3B4AAF] rounded-[6px] w-full gap-2">
+  <p className="font-semibold font-kanitFont text-[18px] md:text-[22px] text-white underline decoration-2 underline-offset-4">
+    Fees Structure
+  </p>
 
-            <div className="spwrapper flex flex-col gap-4 w-full justify-around px-4 md:px-6 py-2">
-              {searchData.SPECIALISATIONS &&
-                searchData.FEESAMOUNT &&
-                searchData.SPECIALISATIONS.map((specialisation, index) => (
-                  <div key={index} className="flex justify-between items-center gap-8">
-                    <p className="font-kanitFont text-white text-[14px] custom:text-[16px] md:text-[18px] lg:text-[20px]">{specialisation}</p>
-                    <p className="font-kanitFont text-white text-[14px] custom:text-[16px] md:text-[18px] lg:text-[20px]">{searchData.FEESAMOUNT[index]}</p>
-                  </div>
-                ))}
-            </div>
-          </div>
+  <div className="spwrapper w-full px-4 md:px-6 py-2">
+  <div className="overflow-x-auto scrollbar-hide">
+    <table className="w-full min-w-max border-collapse border border-white">
+      <thead>
+        <tr className="bg-[#2E3A8F] text-white text-sm md:text-base">
+          <th className="border border-white px-2 md:px-4 py-2 text-left">Specialisations</th>
+          <th className="border border-white px-2 md:px-4 py-2 text-left">Admission Fees</th>
+          <th className="border border-white px-2 md:px-4 py-2 text-left">First Year</th>
+          <th className="border border-white px-2 md:px-4 py-2 text-left">Second Year</th>
+          <th className="border border-white px-2 md:px-4 py-2 text-left">Third Year</th>
+          <th className="border border-white px-2 md:px-4 py-2 text-left">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {searchData.FEES_DETAILS &&
+          searchData.FEES_DETAILS.map((fee, index) => (
+            <tr key={index} className="hover:bg-[#4B5BBF]">
+              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.specialization}</td>
+              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.admission_fee}</td>
+              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.firstyear}</td>
+              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.secondyear}</td>
+              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.thirdyear}</td>
+              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.total_fee}</td>  
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+</div>
+
 
           <div className="coursename bg-[#008FE8] flex justify-between px-4 md:px-6 items-center py-2 rounded-[6px]"> <p className='font-semibold  font-kanitFont text-[15px] md:text-[22px] text-white'>Location </p>   <p className='font-semibold font-kanitFont text-[15px] text-white md:text-[22px]'>{searchData.LOCATION}</p> </div>
 
