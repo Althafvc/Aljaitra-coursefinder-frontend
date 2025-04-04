@@ -3,9 +3,11 @@ import { useLocation } from 'react-router-dom'
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import bg from '../assets/images/backgrounds/seven.jpg'
 
+
 function Output() {
   const location = useLocation()
   const searchData = location.state || {}; // Default to empty object if no state is passed
+  const showAdmissionFee = searchData.FEES_DETAILS?.some(fee => fee.admission_fee);
 
 
 
@@ -45,31 +47,35 @@ function Output() {
 
   <div className="spwrapper w-full px-4 md:px-6 py-2">
   <div className="overflow-x-auto scrollbar-hide">
-    <table className="w-full min-w-max border-collapse border border-white">
-      <thead>
-        <tr className="bg-[#2E3A8F] text-white text-sm md:text-base">
-          <th className="border border-white px-2 md:px-4 py-2 text-left">Specialisations</th>
-          <th className="border border-white px-2 md:px-4 py-2 text-left">Admission Fees</th>
-          <th className="border border-white px-2 md:px-4 py-2 text-left">First Year</th>
-          <th className="border border-white px-2 md:px-4 py-2 text-left">Second Year</th>
-          <th className="border border-white px-2 md:px-4 py-2 text-left">Third Year</th>
-          <th className="border border-white px-2 md:px-4 py-2 text-left">Total</th>
+  <table className="w-full min-w-max border-collapse border border-white">
+  <thead>
+    <tr className="bg-[#2E3A8F] text-white text-sm md:text-base">
+      <th className="border border-white px-2 md:px-4 py-2 text-left">Specialisations</th>
+      {showAdmissionFee && (
+        <th className="border border-white px-2 md:px-4 py-2 text-left">Admission Fees</th>
+      )}
+      <th className="border border-white px-2 md:px-4 py-2 text-left">First Year</th>
+      <th className="border border-white px-2 md:px-4 py-2 text-left">Second Year</th>
+      <th className="border border-white px-2 md:px-4 py-2 text-left">Third Year</th>
+      <th className="border border-white px-2 md:px-4 py-2 text-left">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {searchData.FEES_DETAILS &&
+      searchData.FEES_DETAILS.map((fee, index) => (
+        <tr key={index} className="hover:bg-[#4B5BBF]">
+          <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.specialization}</td>
+          {showAdmissionFee && (
+            <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.admission_fee}</td>
+          )}
+          <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.firstyear}</td>
+          <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.secondyear}</td>
+          <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.thirdyear}</td>
+          <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.total_fee}</td>  
         </tr>
-      </thead>
-      <tbody>
-        {searchData.FEES_DETAILS &&
-          searchData.FEES_DETAILS.map((fee, index) => (
-            <tr key={index} className="hover:bg-[#4B5BBF]">
-              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.specialization}</td>
-              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.admission_fee}</td>
-              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.firstyear}</td>
-              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.secondyear}</td>
-              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.thirdyear}</td>
-              <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.total_fee}</td>  
-            </tr>
-          ))}
-      </tbody>
-    </table>
+      ))}
+  </tbody>
+</table>
   </div>
 </div>
 
