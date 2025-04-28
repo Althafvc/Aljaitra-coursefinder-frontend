@@ -8,6 +8,8 @@ function Output() {
   const location = useLocation()
   const searchData = location.state || {}; // Default to empty object if no state is passed
   const showAdmissionFee = searchData.FEES_DETAILS?.some(fee => fee.admission_fee);
+  const showSpecializations = searchData.specialization?.length > 0;
+  
 
 
 
@@ -50,7 +52,9 @@ function Output() {
                 <table className="w-full min-w-max border-collapse border border-white">
                   <thead>
                     <tr className="bg-[#2E3A8F] text-white text-sm md:text-base">
-                      <th className="border border-white px-2 md:px-4 py-2 text-left">Specialisations</th>
+                      {showSpecializations && (
+                        <th className="border border-white px-2 md:px-4 py-2 text-left">Specialisations</th>
+                      )}
                       {showAdmissionFee && (
                         <th className="border border-white px-2 md:px-4 py-2 text-left">Admission Fees</th>
                       )}
@@ -64,7 +68,9 @@ function Output() {
                     {searchData.FEES_DETAILS &&
                       searchData.FEES_DETAILS.map((fee, index) => (
                         <tr key={index} className="hover:bg-[#4B5BBF]">
+                          {showSpecializations && (
                           <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.specialization}</td>
+                          )}
                           {showAdmissionFee && (
                             <td className="border border-white px-2 md:px-4 py-2 text-white text-sm md:text-base font-bold">{fee.admission_fee}</td>
                           )}
