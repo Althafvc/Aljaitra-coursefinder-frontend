@@ -9,7 +9,8 @@ function Output() {
   const showAdmissionFee = searchData.FEES_DETAILS?.some(
     (fee) => fee.admission_fee
   );
-  const showSpecializations = searchData.specialization?.length > 0;
+  console.log();
+  const showSpecializations = searchData.SPECIALIZATIONS?.some((spec) => spec);
   const showFourthyear = searchData.FEES_DETAILS?.some((fee) => fee.fourthyear);
 
   return (
